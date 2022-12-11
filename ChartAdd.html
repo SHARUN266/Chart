@@ -1,13 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Chart</title>
-</head>
-<body>
-    
-    
-</body>
+  </head>
+  <body>
+    <input type="text" id="month" placeholder="Enter Month"/>
+    <input type="text" id="attandance" placeholder="Enter Attendance"/>
+    <input type="text" id="performance" placeholder="Enter Performance"/>
+    <input type="submit" id="btn" value="Submit">
+    <canvas id="ctx"></canvas>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+  <script type="text/javascript">
+    const labels = [
+      "January ",
+      "Feburary",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    var ctx;
+    var chartJS;
+    window.addEventListener("load", function () {
+        let btn=document.getElementById('btn')
+        btn.addEventListener("click",()=>{
+            let mth=document.getElementById('month').value;
+            let atd=document.getElementById('attandance').value;
+            let per=document.getElementById('performance').value;
+            let payload={atd,per,mth}
+            addData(chartJS,payload)
+        })
+      ctx = document.getElementById("ctx");
+      chartJS = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "Performance",
+              data: [],
+              backgroundColor: [
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+              ],
+              borderWidth: 1,
+            },
+            {
+              label: "Attandance",
+              data: [],
+              backgroundColor: [
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+                getRandomColor(),
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    });
+    const getRandomColor = () => {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    };
+
+    function addData(chart,{atd,per,mth}){
+       // console.log(chart.data.datasets[0].data,"vfvef")
+          chart.data.labels.push(mth)
+          chart.data.datasets[0].data.push(+per)
+          chart.data.datasets[1].data.push(+atd)
+    }
+  </script>
 </html>
