@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Chart</title>
+    <title>RemoveLast</title>
   </head>
   <body>
     <input type="text" id="month" placeholder="Enter Month"/>
     <input type="text" id="attandance" placeholder="Enter Attendance"/>
     <input type="text" id="performance" placeholder="Enter Performance"/>
     <button id="btn" value="Submit">Submit</button>
+    <button id="rmv" >Remove</button>
     <canvas id="ctx"></canvas>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
@@ -34,12 +35,16 @@
     var chartJS;
     window.addEventListener("load", function () {
         let btn=document.getElementById('btn')
+        let rmv=document.getElementById("rmv")
         btn.addEventListener("click",()=>{
             let mth=document.getElementById('month').value;
             let atd=document.getElementById('attandance').value;
             let per=document.getElementById('performance').value;
             let payload={atd,per,mth}
             addData(chartJS,payload)
+        })
+        rmv.addEventListener("click",()=>{
+              RemoveLast(chartJS)
         })
       ctx = document.getElementById("ctx");
       chartJS = new Chart(ctx, {
@@ -116,12 +121,20 @@
       }
       return color;
     };
-
+   function  RemoveLast(chart){
+       // console.log("cecew")
+       chart.data.labels.pop()
+       chart.data.datasets.forEach(dataset=>{
+        dataset.data.pop()
+       })
+       chart.update()
+   }
     function addData(chart,{atd,per,mth}){
        // console.log(chart.data.datasets[0].data,"vfvef")
           chart.data.labels.push(mth)
           chart.data.datasets[0].data.push(+per)
           chart.data.datasets[1].data.push(+atd)
+          chart.update()
     }
   </script>
 </html>
